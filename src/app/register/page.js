@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -9,19 +10,28 @@ export default function RegisterPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [creatingUser, setCreatingUser] = useState(false);   
-    const [userCreated, setUserCreated] = useState(true);
+    const [userCreated, setUserCreated] = useState(false);
+    const [error, setError] = useState(false);
     async function handleFormSubmit(ev) {
         ev.preventDefault();
         setCreatingUser(true);
-        await fetch('/api/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })        
-          });
-          setCreatingUser(false);
-    }
+        setError(false);
+        setUserCreated(false);
+        const response = await fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })        
+              });
+              if (response.ok) {
+                setUserCreated(true);
+              } else {
+                setError(true);
+              }
+              setCreatingUser(false);
+        }
+      
         
     return (
         <section className="mt-8">
@@ -34,7 +44,13 @@ export default function RegisterPage() {
                     Cadastro concluido com sucesso! <br />
                      <Link className="underLine" href="/login">Entrar &raquo;</Link>
                 </div>
-            )};
+            )}
+            {error && (
+                <div className="my-2 text-center text-red-500">
+                    Ocorreu um erro ao criar o usuário <br/>
+                    Tente novamente mais tarde
+                </div>
+            )}
 
             <form className="block max-w-xs mx-auto mt-8" onSubmit={handleFormSubmit} >
                 <input type="email" placeholder="Email" value={email}
@@ -51,6 +67,10 @@ export default function RegisterPage() {
                     <Image src={'/google.svg'} alt={''} width={24} height={24} />
                     Fazer login
                 </button>
+                <div className="text-center my-4 text-gray-500 border-t pt-4">
+                    Ja tem cadastro? <Link className="underline" href={'/login'}>Acesse aqui &raquo; </Link>
+                </div>
+
             </form>            
         </section>
     );
