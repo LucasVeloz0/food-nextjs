@@ -11,11 +11,11 @@ export default function Hero() {
                 </h1>
                <p className="my-6 text-gray-500 text-sm">Sabor inigualável, ingredientes selecionados e uma experiência que vai conquistar o seu paladar.</p>
                 <div className='flex gap-4 text-sm'>
-                <button className="bg-primary uppercase flex items-center gap-2 text-white px-4 py-2 rounded-full">
+                <button className="flex justify-center bg-primary uppercase flex items-center gap-2 text-white px-4 py-2 rounded-full">
                     Peça já
                     <Right />
                 </button>
-                <button className="flex gap2 py-2 text-gray-600 font-semibold">
+                <button className="flex border-0 items-center gap-2 py-2 text-gray-600 font-semibold">
                     Saiba mais
                     <Right />
                 </button>
